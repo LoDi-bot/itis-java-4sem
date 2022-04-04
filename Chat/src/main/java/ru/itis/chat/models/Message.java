@@ -22,9 +22,12 @@ public class Message extends AbstractEntity {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "chat_room_id")
-    private ChatRoom chatRoom;
+    private ChatRoom chat;
 
     @Type(type = "text")
     private String body;
+
+    @Enumerated(value = EnumType.STRING)
+    private State state;
 
 }

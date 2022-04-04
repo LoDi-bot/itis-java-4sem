@@ -23,7 +23,7 @@ public class ChatRoomServiceImpl implements ChatRoomService {
                 .participants(chatRoomDto.getParticipants().stream().map(userDto -> {
                             return usersRepository.findById(userDto.getId()).get();
                         })
-                        .collect(Collectors.toList()))
+                        .collect(Collectors.toSet()))
                 .build();
 
         return ChatRoomDto.from(chatRepository.save(chatRoom));

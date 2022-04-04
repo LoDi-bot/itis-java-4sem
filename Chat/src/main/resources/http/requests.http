@@ -1,0 +1,38 @@
+GET localhost:8080/session
+
+###
+
+POST localhost:8080/session/persistUser
+Content-Type: application/json
+
+{
+  "firstName": "Iskander",
+  "lastName": "Asadullin",
+  "email": "asad@gmail.com"
+}
+
+###
+
+POST localhost:8080/session/destroy
+
+###
+
+POST localhost:8080/signUp
+Content-Type: application/json
+
+{
+  "firstName": "Iskander",
+  "lastName": "Asadullin",
+  "email": "asad@gmail.com",
+  "password": "Asadullin2003"
+}
+
+###
+
+POST localhost:8080/signIn
+Content-Type: application/json
+
+{
+"email": "asad@gmail.com",
+"password": "Asadullin2003"
+}

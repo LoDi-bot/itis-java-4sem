@@ -2,9 +2,9 @@ package ru.itis.chat.dto;
 
 import lombok.*;
 import ru.itis.chat.models.ChatRoom;
-import ru.itis.chat.models.Message;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Data
@@ -15,17 +15,17 @@ public class ChatRoomDto {
 
     private Long id;
 
-    private List<UserDto> participants;
+    private Set<UserDto> participants;
 
-    private List<Message> messages;
+    private List<MessageDto> messages;
 
     private ChatRoom.Type type;
 
     public static ChatRoomDto from(ChatRoom chatRoom) {
         return ChatRoomDto.builder()
                 .id(chatRoom.getId())
-                .participants(chatRoom.getParticipants().stream().map(UserDto::from).collect(Collectors.toList()))
-                .messages(chatRoom.getMessages())
+                .participants(chatRoom.getParticipants().stream().map(UserDto::from).collect(Collectors.toSet()))
+                .messages(chatRoom.getMessages().stream().map(MessageDto::from).collect(Collectors.toList()))
                 .type(chatRoom.getType())
                 .build();
     }

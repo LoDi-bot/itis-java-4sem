@@ -5,6 +5,7 @@ import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -22,16 +23,17 @@ public class User extends AbstractEntity {
     @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "hash_password")
-    private String hashPassword;
+    private String password;
 
     private String email;
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "participants")
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+    inverseJoinColumns = @JoinColumn(name = "chat_id", referencedColumnName = "id"))
     @ToString.Exclude
-    private List<ChatRoom> chatRooms;
+    private Set<ChatRoom> chats;
 
-    @OneToMany(mappedBy = "author")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "author")
     @ToString.Exclude
     private List<Message> messages;
 

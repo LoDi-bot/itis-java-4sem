@@ -18,9 +18,10 @@ public class MessageDto {
 
     public static MessageDto from(Message message) {
         return MessageDto.builder()
+                .id(message.getId())
                 .body(message.getBody())
                 .author(UserDto.from(message.getAuthor()))
-                .chatRoomId(message.getChatRoom().getId())
+                .chatRoomId(message.getChat().getId())
                 .build();
     }
 }

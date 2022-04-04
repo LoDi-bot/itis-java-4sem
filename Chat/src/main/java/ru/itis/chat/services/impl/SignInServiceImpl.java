@@ -1,6 +1,7 @@
 package ru.itis.chat.services.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.itis.chat.dto.SignInForm;
 import ru.itis.chat.dto.UserDto;
@@ -16,12 +17,14 @@ public class SignInServiceImpl implements SignInService {
 
     private final UsersRepository usersRepository;
 
+    private final PasswordEncoder passwordEncoder;
+
     @Override
     public UserDto signIn(SignInForm signInForm) {
         Optional<User> optionalUser = usersRepository.findByEmail(signInForm.getEmail());
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
-            if (user.getHashPassword().equals(signInForm.getPassword())) {
+            if (passwordEncoder.matches(signInForm.getPassword(), user.getPassword())) {
                 return UserDto.from(user);
             }
         }

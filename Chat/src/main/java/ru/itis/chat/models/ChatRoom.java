@@ -5,6 +5,7 @@ import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -20,15 +21,18 @@ public class ChatRoom extends AbstractEntity {
         GROUP, PERSONAL
     }
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "chats")
     @ToString.Exclude
-    private List<User> participants;
+    private Set<User> participants;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "chatRoom")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "chat")
     @ToString.Exclude
     private List<Message> messages;
 
     @Enumerated(value = EnumType.STRING)
     private Type type;
+
+    @Enumerated(value = EnumType.STRING)
+    private State state;
 
 }

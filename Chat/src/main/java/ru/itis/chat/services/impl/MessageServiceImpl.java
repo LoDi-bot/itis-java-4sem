@@ -20,7 +20,7 @@ public class MessageServiceImpl implements MessageService {
     public void sendMessage(MessageDto messageDto) {
         Message message = Message.builder()
                 .author(usersRepository.findById(messageDto.getAuthor().getId()).get())
-                .chatRoom(chatRepository.findById(messageDto.getChatRoomId()).get())
+                .chat(chatRepository.findById(messageDto.getChatRoomId()).get())
                 .body(messageDto.getBody())
                 .build();
         messageRepository.save(message);

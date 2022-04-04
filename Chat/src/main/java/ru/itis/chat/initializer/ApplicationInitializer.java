@@ -1,18 +1,22 @@
 package ru.itis.chat.initializer;
 
-import org.springframework.web.WebApplicationInitializer;
+import org.springframework.session.web.context.AbstractHttpSessionApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 import ru.itis.chat.configuration.ApplicationConfig;
 
 import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
 
-public class ApplicationInitializer implements WebApplicationInitializer {
+public class ApplicationInitializer extends AbstractHttpSessionApplicationInitializer {
+
+    public ApplicationInitializer() {
+        super(ApplicationConfig.class);
+    }
+
     @Override
-    public void onStartup(ServletContext servletContext) throws ServletException {
+    public void onStartup(ServletContext servletContext) {
         // поднимаем конфигурацию контекста Spring для WebMvc приложений
         AnnotationConfigWebApplicationContext springWebContext = new AnnotationConfigWebApplicationContext();
 
