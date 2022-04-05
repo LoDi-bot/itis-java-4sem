@@ -1,22 +1,3 @@
-GET localhost:8080/session
-
-###
-
-POST localhost:8080/session/persistUser
-Content-Type: application/json
-
-{
-  "firstName": "Iskander",
-  "lastName": "Asadullin",
-  "email": "asad@gmail.com"
-}
-
-###
-
-POST localhost:8080/session/destroy
-
-###
-
 POST localhost:8080/signUp
 Content-Type: application/json
 
@@ -29,10 +10,57 @@ Content-Type: application/json
 
 ###
 
+POST localhost:8080/signUp
+Content-Type: application/json
+
+{
+  "firstName": "Kamil",
+  "lastName": "Gareev",
+  "email": "pskda@gmail.com",
+  "password": "qwerty007"
+}
+
+###
+
 POST localhost:8080/signIn
 Content-Type: application/json
 
 {
-"email": "asad@gmail.com",
-"password": "Asadullin2003"
+  "email": "asad@gmail.com",
+  "password": "Asadullin2003"
 }
+
+###
+
+POST localhost:8080/signIn
+Content-Type: application/json
+
+{
+  "email": "pskda@gmail.com",
+  "password": "qwerty007"
+}
+
+###
+
+POST localhost:8080/signOut
+
+###
+
+GET localhost:8080/session
+
+###
+
+GET localhost:8080/chats
+
+###
+
+POST localhost:8080/chats
+Content-Type: application/json
+
+{
+  "receiverId": 2
+}
+
+###
+
+GET localhost:8080/chats/1

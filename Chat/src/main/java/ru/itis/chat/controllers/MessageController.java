@@ -1,10 +1,17 @@
 package ru.itis.chat.controllers;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import ru.itis.chat.dto.ChatRoomDto;
+import ru.itis.chat.dto.CreateMessageForm;
+import ru.itis.chat.dto.EditMessageDto;
 import ru.itis.chat.dto.MessageDto;
 import ru.itis.chat.services.MessageService;
+
+import javax.servlet.http.HttpSession;
 
 @RequiredArgsConstructor
 @Controller
@@ -14,17 +21,28 @@ public class MessageController {
     private final MessageService messageService;
 
     @PostMapping
-    public void sendMessage(@RequestBody MessageDto messageDto) {
-        messageService.sendMessage(messageDto);
+    public ResponseEntity<ChatRoomDto> sendMessage(@RequestBody CreateMessageForm createMessageForm, HttpSession session) {
+        Long userId = (Long) session.getAttribute("userId");
+        if (userId == null) {
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .build();
+        } else {
+            return ResponseEntity
+                    .ok()
+                    .body(messageService.sendMessage(createMessageForm, userId));
+        }
     }
 
     @PutMapping("/{id}")
-    public MessageDto editMessage(@RequestBody String newText, @PathVariable("id") Long messageId) {
-        return messageService.editMessage(newText, messageId);
+    public ResponseEntity<ChatRoomDto> editMessage(@RequestBody EditMessageDto editMessageDto) {
+        return ResponseEntity
+                .ok()
+                .body(messageService.editMessage(editMessageDto.getNewBody(), editMessageDto.getMessageId()));
     }
 
     @DeleteMapping("/{id}")
-    public void editMessage(@PathVariable("id") Long messageId) {
+    public void deleteMessage(@PathVariable("id") Long messageId) {
         messageService.deleteMessage(messageId);
     }
 }

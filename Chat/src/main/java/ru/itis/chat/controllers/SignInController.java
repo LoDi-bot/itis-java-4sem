@@ -22,15 +22,21 @@ public class SignInController {
 
     @PostMapping
     public ResponseEntity<UserDto> signIn(@RequestBody SignInForm signInForm, HttpSession session) {
-        UserDto userDto = signInService.signIn(signInForm);
-        if (userDto == null) {
-            return ResponseEntity
-                    .status(HttpStatus.NOT_FOUND)
-                    .build();
-        }
+        if (session.getAttribute("userId") == null) {
+            UserDto userDto = signInService.signIn(signInForm);
+            if (userDto == null) {
+                return ResponseEntity
+                        .status(HttpStatus.NOT_FOUND)
+                        .build();
+            }
 
-        session.setAttribute("userId", userDto.getId());
-        return ResponseEntity.ok()
-                .body(userDto);
+            session.setAttribute("userId", userDto.getId());
+            return ResponseEntity
+                    .status(HttpStatus.ACCEPTED)
+                    .body(userDto);
+        }
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .build();
     }
 }
