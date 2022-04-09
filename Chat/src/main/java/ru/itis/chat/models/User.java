@@ -31,9 +31,7 @@ public class User extends AbstractEntity {
 
     private String email;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
-    inverseJoinColumns = @JoinColumn(name = "chat_id", referencedColumnName = "id"))
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "participants")
     @ToString.Exclude
     private Set<ChatRoom> chats;
 

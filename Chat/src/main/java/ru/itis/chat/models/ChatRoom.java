@@ -17,22 +17,14 @@ import java.util.Set;
 @Table(name = "chats")
 public class ChatRoom extends AbstractEntity {
 
-    public enum Type {
-        GROUP, PERSONAL
-    }
-
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "chats")
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(joinColumns = @JoinColumn(name = "chat_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
     @ToString.Exclude
     private Set<User> participants;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "chat")
     @ToString.Exclude
     private List<Message> messages;
-
-    @Enumerated(value = EnumType.STRING)
-    private Type type;
-
-    @Enumerated(value = EnumType.STRING)
-    private State state;
 
 }

@@ -1,7 +1,16 @@
 package ru.itis.chat.controllers;
 
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+import javax.servlet.http.HttpSession;
+
+@RestController
+@RequestMapping("/signOut")
 public class SignOutController {
+
+    @PostMapping
+    public void sigOut(HttpSession session) {
+        session.invalidate();
+    }
+
 }

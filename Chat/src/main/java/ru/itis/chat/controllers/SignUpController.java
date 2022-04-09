@@ -1,12 +1,12 @@
 package ru.itis.chat.controllers;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 import ru.itis.chat.dto.SignUpForm;
 import ru.itis.chat.services.SignUpService;
+
+import javax.servlet.http.HttpSession;
 
 @RequiredArgsConstructor
 @RestController
@@ -16,8 +16,11 @@ public class SignUpController {
     private final SignUpService signUpService;
 
     @PostMapping
-    public void signUp(@RequestBody SignUpForm signUpForm) {
-        signUpService.signUp(signUpForm);
+    @ResponseStatus(HttpStatus.CREATED)
+    public void signUp(@RequestBody SignUpForm signUpForm, HttpSession session) {
+        if (session.getAttribute("userId") == null) {
+            signUpService.signUp(signUpForm);
+        }
     }
 
 }

@@ -2,6 +2,8 @@ package ru.itis.chat.services.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.itis.chat.dto.ChatRoomDto;
+import ru.itis.chat.dto.CreateMessageForm;
 import ru.itis.chat.dto.MessageDto;
 import ru.itis.chat.models.Message;
 import ru.itis.chat.repositories.ChatRepository;
@@ -17,20 +19,22 @@ public class MessageServiceImpl implements MessageService {
     private final ChatRepository chatRepository;
 
     @Override
-    public void sendMessage(MessageDto messageDto) {
+    public ChatRoomDto sendMessage(CreateMessageForm createMessageForm, Long authorId) {
         Message message = Message.builder()
-                .author(usersRepository.findById(messageDto.getAuthor().getId()).get())
-                .chat(chatRepository.findById(messageDto.getChatRoomId()).get())
-                .body(messageDto.getBody())
+                .author(usersRepository.findById(authorId).get())
+                .chat(chatRepository.findById(createMessageForm.getChatRoomId()).get())
+                .body(createMessageForm.getBody())
                 .build();
         messageRepository.save(message);
+        return ChatRoomDto.from(chatRepository.findById(createMessageForm.getChatRoomId()).get());
     }
 
     @Override
-    public MessageDto editMessage(String newText, Long messageId) {
+    public ChatRoomDto editMessage(String newText, Long messageId) {
         Message message = messageRepository.findById(messageId).get();
         message.setBody(newText);
-        return MessageDto.from(messageRepository.save(message));
+        messageRepository.save(message);
+        return ChatRoomDto.from(chatRepository.findById(message.getChat().getId()).get());
     }
 
     @Override

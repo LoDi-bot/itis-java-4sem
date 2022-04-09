@@ -27,7 +27,4 @@ public class Message extends AbstractEntity {
     @Type(type = "text")
     private String body;
 
-    @Enumerated(value = EnumType.STRING)
-    private State state;
-
 }
