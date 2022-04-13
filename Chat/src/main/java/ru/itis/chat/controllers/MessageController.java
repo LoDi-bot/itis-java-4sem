@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ru.itis.chat.dto.ChatRoomDto;
 import ru.itis.chat.dto.CreateMessageForm;
-import ru.itis.chat.dto.EditMessageDto;
 import ru.itis.chat.dto.MessageDto;
 import ru.itis.chat.services.MessageService;
 
@@ -35,10 +34,10 @@ public class MessageController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ChatRoomDto> editMessage(@RequestBody EditMessageDto editMessageDto) {
+    public ResponseEntity<ChatRoomDto> editMessage(@RequestBody MessageDto messageDto, @PathVariable("id") Long id) {
         return ResponseEntity
                 .ok()
-                .body(messageService.editMessage(editMessageDto.getNewBody(), editMessageDto.getMessageId()));
+                .body(messageService.editMessage(messageDto.getBody(), id));
     }
 
     @DeleteMapping("/{id}")
