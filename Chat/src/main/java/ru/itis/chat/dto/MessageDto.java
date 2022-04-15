@@ -4,24 +4,21 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.itis.chat.models.Message;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class MessageDto {
+    @NotNull(message = "MESSAGE_ID_EMPTY")
     private Long id;
+    @NotBlank(message = "BLANK_MESSAGE_BODY")
     private String body;
-    private UserDto author;
+    @NotNull(message = "MESSAGE_AUTHOR_EMPTY")
+    private AccountDto author;
+    @NotNull(message = "MESSAGE_CHAT_EMPTY")
     private Long chatRoomId;
-
-    public static MessageDto from(Message message) {
-        return MessageDto.builder()
-                .id(message.getId())
-                .body(message.getBody())
-                .author(UserDto.from(message.getAuthor()))
-                .chatRoomId(message.getChat().getId())
-                .build();
-    }
 }

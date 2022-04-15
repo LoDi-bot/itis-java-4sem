@@ -1,16 +1,19 @@
 package ru.itis.chat.services.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import ru.itis.chat.dto.ChatRoomDto;
 import ru.itis.chat.dto.CreateChatForm;
+import ru.itis.chat.exceptions.ErrorEntity;
+import ru.itis.chat.exceptions.ValidationException;
+import ru.itis.chat.mapper.ChatRoomsMapper;
 import ru.itis.chat.models.ChatRoom;
-import ru.itis.chat.models.User;
+import ru.itis.chat.models.Account;
 import ru.itis.chat.repositories.ChatRepository;
-import ru.itis.chat.repositories.UsersRepository;
+import ru.itis.chat.repositories.AccountsRepository;
 import ru.itis.chat.services.ChatRoomService;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -22,36 +25,62 @@ import java.util.stream.Collectors;
 @Service
 public class ChatRoomServiceImpl implements ChatRoomService {
     private final ChatRepository chatRepository;
-    private final UsersRepository usersRepository;
+    private final AccountsRepository accountsRepository;
+    private final ChatRoomsMapper chatRoomsMapper;
 
     @Override
-    public List<ChatRoomDto> getAllChats(Long userId) {
-        return chatRepository.findAllByParticipantsContaining(usersRepository.getById(userId))
+    public List<ChatRoomDto> getAllChats(Long accountId) {
+        return chatRepository.findAllByParticipantsContaining(accountsRepository.getById(accountId))
                 .stream()
-                .map(ChatRoomDto::from)
+                .map(chatRoomsMapper::toChatRoomDto)
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     @Override
-    public ChatRoomDto createChatRoom(CreateChatForm createChatForm, Long userId) {
-        Set<User> participants = new HashSet<>();
-        participants.add(usersRepository.findById(userId).get());
-        participants.add(usersRepository.findById(createChatForm.getReceiverId()).get());
+    public ChatRoomDto createChatRoom(CreateChatForm createChatForm, Long accountId) {
+        Set<Account> participants = new HashSet<>();
+
+        participants.add(accountsRepository
+                .findById(accountId)
+                .orElseThrow((Supplier<RuntimeException>)
+                        () -> new ValidationException(ErrorEntity.ACCOUNT_NOT_FOUND)));
+        participants.add(accountsRepository
+                .findById(createChatForm.getReceiverId())
+                .orElseThrow((Supplier<RuntimeException>)
+                        () -> new ValidationException(ErrorEntity.ACCOUNT_NOT_FOUND)));
+
         ChatRoom chatRoom = ChatRoom.builder()
                 .participants(participants)
                 .messages(new ArrayList<>())
                 .build();
 
-        return ChatRoomDto.from(chatRepository.save(chatRoom));
+        return chatRoomsMapper.toChatRoomDto(chatRepository.save(chatRoom));
     }
 
     @Override
-    public ChatRoomDto getChatRoom(Long id) {
-        return ChatRoomDto.from(chatRepository.findById(id).get());
+    public ChatRoomDto getChatRoom(Long chatId, Long accountId) {
+        ChatRoom chatRoom = chatRepository
+                .findById(chatId)
+                .orElseThrow((Supplier<RuntimeException>)
+                        () -> new ValidationException(ErrorEntity.CHAT_NOT_FOUND));
+        if (chatRoom.getParticipants().contains(accountsRepository.getById(accountId))) {
+            return  chatRoomsMapper.toChatRoomDto(chatRoom);
+        } else {
+            throw new ValidationException(ErrorEntity.ACCESS_TO_FOREIGN_DATA);
+        }
     }
 
     @Override
-    public void deleteChatRoom(Long id) {
-        chatRepository.deleteById(id);
+    public void deleteChatRoom(Long chatId, Long accountId) {
+        ChatRoom chatRoom = chatRepository
+                .findById(chatId)
+                .orElseThrow((Supplier<RuntimeException>)
+                        () -> new ValidationException(ErrorEntity.CHAT_NOT_FOUND));
+        if (chatRoom.getParticipants().contains(accountsRepository.getById(accountId))) {
+            chatRepository.deleteById(chatId);
+        } else {
+            throw new ValidationException(ErrorEntity.ACCESS_TO_FOREIGN_DATA);
+        }
     }
 }

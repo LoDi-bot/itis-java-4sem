@@ -6,8 +6,8 @@ import ru.itis.chat.dto.CreateChatForm;
 import java.util.List;
 
 public interface ChatRoomService {
-    List<ChatRoomDto> getAllChats(Long userId);
-    ChatRoomDto createChatRoom(CreateChatForm createChatForm, Long userId);
-    ChatRoomDto getChatRoom(Long id);
-    void deleteChatRoom(Long id);
+    List<ChatRoomDto> getAllChats(Long accountId);
+    ChatRoomDto createChatRoom(CreateChatForm createChatForm, Long accountId);
+    ChatRoomDto getChatRoom(Long chatId, Long accountId);
+    void deleteChatRoom(Long chatId, Long accountId);
 }

@@ -19,7 +19,21 @@ import java.util.Set;
 @SuperBuilder
 @Entity
 @Table(name = "users")
-public class User extends AbstractEntity {
+public class Account extends AbstractEntity {
+
+    public enum Role {
+        USER, ADMIN
+    };
+
+    public enum State {
+        NOT_CONFIRMED, CONFIRMED, DELETED, BANNED
+    };
+
+    @Enumerated(value = EnumType.STRING)
+    private Role role;
+
+    @Enumerated(value = EnumType.STRING)
+    private State state;
 
     @Column(name = "first_name")
     private String firstName;
@@ -27,9 +41,9 @@ public class User extends AbstractEntity {
     @Column(name = "last_name")
     private String lastName;
 
-    private String password;
-
+    @Column(unique = true)
     private String email;
+    private String password;
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "participants")
     @ToString.Exclude

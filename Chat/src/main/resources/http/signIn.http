@@ -1,0 +1,27 @@
+POST localhost:8080/login
+Content-Type: application/json
+
+{
+  "email": "asadullin.iskander@gmail.com",
+  "password": "123456"
+}
+
+###
+
+POST localhost:8080/signIn
+Content-Type: application/json
+
+{
+  "email": "pskda@gmail.com",
+  "password": "qwerty007"
+}
+
+###
+
+POST localhost:8080/signIn
+Content-Type: application/json
+
+{
+  "email": "r9uw1k@gmail.com",
+  "password": "2002"
+}

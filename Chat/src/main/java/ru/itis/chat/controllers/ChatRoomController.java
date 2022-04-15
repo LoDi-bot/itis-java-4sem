@@ -1,15 +1,16 @@
 package ru.itis.chat.controllers;
 
+import com.auth0.jwt.JWT;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ru.itis.chat.dto.ChatRoomDto;
 import ru.itis.chat.dto.CreateChatForm;
 import ru.itis.chat.services.ChatRoomService;
 
-import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -18,60 +19,42 @@ import java.util.List;
 public class ChatRoomController {
     private final ChatRoomService chatRoomsService;
 
+    @PreAuthorize("hasAuthority('USER')")
     @GetMapping
-    public ResponseEntity<List<ChatRoomDto>> getAllChats(HttpSession session) {
-        Long userId = (Long) session.getAttribute("userId");
-        if (userId == null) {
-            return ResponseEntity
-                    .status(HttpStatus.UNAUTHORIZED)
-                    .build();
-        } else {
-            return ResponseEntity
-                    .ok()
-                    .body(chatRoomsService.getAllChats(userId));
-        }
+    public ResponseEntity<List<ChatRoomDto>> getAllChats(Authentication authentication) {
+        Long accountId = Long.valueOf(JWT.decode(authentication.getPrincipal().toString()).getSubject());
+        return ResponseEntity
+                .ok()
+                .body(chatRoomsService.getAllChats(accountId));
+
     }
 
+    @PreAuthorize("hasAuthority('USER')")
     @PostMapping
-    public ResponseEntity<ChatRoomDto> createChatRoom(@RequestBody CreateChatForm createChatForm, HttpSession session) {
-        Long userId = (Long) session.getAttribute("userId");
-        if (userId == null) {
-            return ResponseEntity
-                    .status(HttpStatus.UNAUTHORIZED)
-                    .build();
-        } else {
-            return ResponseEntity
-                    .ok()
-                    .body(chatRoomsService.createChatRoom(createChatForm, userId));
-        }
+    public ResponseEntity<ChatRoomDto> createChatRoom(@RequestBody CreateChatForm createChatForm, Authentication authentication) {
+        Long accountId = Long.valueOf(JWT.decode(authentication.getPrincipal().toString()).getSubject());
+        return ResponseEntity
+                .ok()
+                .body(chatRoomsService.createChatRoom(createChatForm, accountId));
+
     }
 
-
+    @PreAuthorize("hasAuthority('USER')")
     @GetMapping("/{id}")
-    public ResponseEntity<ChatRoomDto> getChatRoom(@PathVariable("id") Long chatRoomId, HttpSession session) {
-        Long userId = (Long) session.getAttribute("userId");
-        if (userId == null) {
-            return ResponseEntity
-                    .status(HttpStatus.UNAUTHORIZED)
-                    .build();
-        } else {
-            return ResponseEntity
-                    .ok()
-                    .body(chatRoomsService.getChatRoom(chatRoomId));
-        }
+    public ResponseEntity<ChatRoomDto> getChatRoom(@PathVariable("id") Long chatRoomId, Authentication authentication) {
+        Long accountId = Long.valueOf(JWT.decode(authentication.getPrincipal().toString()).getSubject());
+        return ResponseEntity
+                .ok()
+                .body(chatRoomsService.getChatRoom(chatRoomId, accountId));
+
     }
 
+    @PreAuthorize("hasAuthority('USER')")
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteChatRoom(@PathVariable("id") Long chatRoomId, HttpSession session) {
-        Long userId = (Long) session.getAttribute("userId");
-        if (userId == null) {
-            return ResponseEntity
-                    .status(HttpStatus.UNAUTHORIZED)
-                    .build();
-        } else {
-            chatRoomsService.deleteChatRoom(chatRoomId);
-            return ResponseEntity.ok().build();
-        }
+    public ResponseEntity<?> deleteChatRoom(@PathVariable("id") Long chatRoomId, Authentication authentication) {
+        Long accountId = Long.valueOf(JWT.decode(authentication.getPrincipal().toString()).getSubject());
+        chatRoomsService.deleteChatRoom(chatRoomId, accountId);
+        return ResponseEntity.ok().build();
     }
 
 }

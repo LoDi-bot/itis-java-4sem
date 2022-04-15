@@ -1,6 +1,10 @@
 package ru.itis.chat.models;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
@@ -21,7 +25,7 @@ public class ChatRoom extends AbstractEntity {
     @JoinTable(joinColumns = @JoinColumn(name = "chat_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
     @ToString.Exclude
-    private Set<User> participants;
+    private Set<Account> participants;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "chat")
     @ToString.Exclude

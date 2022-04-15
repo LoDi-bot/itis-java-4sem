@@ -1,0 +1,7 @@
+POST localhost:8080/message
+Content-Type: application/json
+
+{
+  "body": "First respond from Iskander",
+  "chatRoomId": 1
+}

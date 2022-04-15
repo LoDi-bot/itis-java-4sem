@@ -1,0 +1,33 @@
+POST localhost:8080/signUp
+Content-Type: application/json
+
+{
+  "firstName": "Iskander",
+  "lastName": "Asadullin",
+  "email": "asadullin.iskander@gmail.com",
+  "password": "123456"
+}
+
+###
+
+POST localhost:8080/signUp
+Content-Type: application/json
+
+{
+  "firstName": "Kamil",
+  "lastName": "Gareev",
+  "email": "pskda@gmail.com",
+  "password": "qwerty007"
+}
+
+###
+
+POST localhost:8080/signUp
+Content-Type: application/json
+
+{
+  "firstName": "Raushan",
+  "lastName": "Sadriev",
+  "email": "r9uw1k@gmail.com",
+  "password": "2002"
+}

@@ -1,0 +1,14 @@
+GET localhost:8080/chats
+
+###
+
+POST localhost:8080/chats
+Content-Type: application/json
+
+{
+  "receiverId": 2
+}
+
+###
+
+GET localhost:8080/chats/1
