@@ -7,6 +7,7 @@ import ru.itis.chat.dto.SignUpForm;
 import ru.itis.chat.services.SignUpService;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 @RequiredArgsConstructor
 @RestController
@@ -17,7 +18,7 @@ public class SignUpController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void signUp(@RequestBody SignUpForm signUpForm, HttpSession session) {
+    public void signUp(@RequestBody @Valid SignUpForm signUpForm, HttpSession session) {
         if (session.getAttribute("userId") == null) {
             signUpService.signUp(signUpForm);
         }
