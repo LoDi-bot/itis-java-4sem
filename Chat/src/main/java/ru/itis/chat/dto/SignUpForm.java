@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
+import ru.itis.chat.validation.annotations.NotSameNames;
 
 import javax.validation.constraints.Email;
 
@@ -12,6 +13,7 @@ import javax.validation.constraints.Email;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@NotSameNames(names = {"firstName", "lastName"}, message = "{names} are same")
 public class SignUpForm {
     @Length(min = 2, message = "FIRST_NAME_TOO_SHORT")
     @Length(max = 16, message = "FIRST_NAME_TOO_LONG")
