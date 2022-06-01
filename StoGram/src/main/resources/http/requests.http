@@ -1,0 +1,47 @@
+POST localhost/signUp
+Content-Type: application/json
+
+{
+  "nick": "LoDi",
+  "email": "asadullin.iskander@mail.ru",
+  "password": "Asadullin2003"
+}
+
+###
+
+POST localhost/signUp
+Content-Type: application/json
+
+{
+  "nick": "Pskda2",
+  "email": "pskda2@mail.ru",
+  "password": "2002"
+}
+
+###
+
+GET localhost/confirmation/219c078f-2d4f-409c-aa4d-167070e75010
+
+###
+
+POST localhost/login
+Content-Type: application/json
+
+{
+  "email": "asadullin.iskander@mail.ru",
+  "password": "Asadullin2003"
+}
+
+###
+
+
+
+###
+
+GET localhost/test
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuaWNrIjoiTG9EaSIsInN1YiI6IjEiLCJyb2xlIjoiVVNFUiIsImVtYWlsIjoiYXNhZHVsbGluLmlza2FuZGVyQG1haWwucnUifQ.2XSZys79qkNlFG6slV7JlNNIS4ebphXzUpm_v3KNZi0
+
+###
+
+POST localhost/subscriptions/subscribe?authorId=3
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuaWNrIjoiTG9EaSIsInN1YiI6IjEiLCJyb2xlIjoiVVNFUiIsImVtYWlsIjoiYXNhZHVsbGluLmlza2FuZGVyQG1haWwucnUifQ.2XSZys79qkNlFG6slV7JlNNIS4ebphXzUpm_v3KNZi0

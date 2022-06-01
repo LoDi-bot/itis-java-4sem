@@ -1,0 +1,45 @@
+POST https://stogramm.herokuapp.com/avatar/upload
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuaWNrIjoiTG9EaSIsInN1YiI6IjIiLCJyb2xlIjoiVVNFUiIsImVtYWlsIjoiYXNhZHVsbGluLmlza2FuZGVyQG1haWwucnUifQ.oVn4DwEYZnwBx9EW1WN8I8ACYvNJFVp-3wbBWqfDs4k
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="sasuke-cat.jpg";
+Content-Type: image/jpeg
+
+< sasuke-cat.jpg
+--WebAppBoundary--
+
+###
+
+GET https://stogramm.herokuapp.com/avatar/6
+Accept: image/jpeg
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuaWNrIjoiTG9EaSIsInN1YiI6IjIiLCJyb2xlIjoiVVNFUiIsImVtYWlsIjoiYXNhZHVsbGluLmlza2FuZGVyQG1haWwucnUifQ.oVn4DwEYZnwBx9EW1WN8I8ACYvNJFVp-3wbBWqfDs4k
+
+###
+POST https://stogramm.herokuapp.com/signUp
+Content-Type: application/json
+
+{
+  "nick": "LoDi",
+  "email": "asadullin.iskander@mail.ru",
+  "password": "Asadullin2003"
+}
+
+###
+
+POST https://stogramm.herokuapp.com/login
+Content-Type: application/json
+
+{
+  "email": "asadullin.iskander@mail.ru",
+  "password": "Asadullin2003"
+}
+
+###
+
+GET https://stogramm.herokuapp.com/profile/2
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuaWNrIjoiTG9EaSIsInN1YiI6IjIiLCJyb2xlIjoiVVNFUiIsImVtYWlsIjoiYXNhZHVsbGluLmlza2FuZGVyQG1haWwucnUifQ.oVn4DwEYZnwBx9EW1WN8I8ACYvNJFVp-3wbBWqfDs4k
+
+###
+GET https://p16-sign-sg.tiktokcdn.com/aweme/100x100/tos-alisg-avt-0068/149e724a00b6f030c2adcab5810c2262.jpeg?x-expires=1652306400&x-signature=KFDLciSbUTSqjQOcHbHhSfOxukw%3D
+
