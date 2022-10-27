@@ -25,6 +25,7 @@ public class JwtTokenAuthorizationFilter extends OncePerRequestFilter {
     private final ObjectMapper objectMapper;
     private final String secretKey;
 
+    @SuppressWarnings("NullableProblems")
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         if (request.getRequestURI().equals(JwtSecurityConfiguration.LOGIN_FILTER_PROCESSES_URL)

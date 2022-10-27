@@ -31,12 +31,12 @@ public class JwtSecurityConfiguration extends WebSecurityConfigurerAdapter {
     private final Validator validator;
 
     @Autowired
-    public JwtSecurityConfiguration(PasswordEncoder passwordEncoder,
-                                    UserDetailsService accountUserDetailsService,
+    public JwtSecurityConfiguration(UserDetailsService accountUserDetailsService,
+                                    PasswordEncoder passwordEncoder,
                                     ObjectMapper objectMapper,
                                     Validator validator) {
-        this.passwordEncoder = passwordEncoder;
         this.accountUserDetailsService = accountUserDetailsService;
+        this.passwordEncoder = passwordEncoder;
         this.objectMapper = objectMapper;
         this.validator = validator;
     }

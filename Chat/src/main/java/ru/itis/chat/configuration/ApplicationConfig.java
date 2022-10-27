@@ -25,7 +25,6 @@ import javax.sql.DataSource;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
-import java.lang.annotation.Retention;
 import java.util.Objects;
 import java.util.Properties;
 
